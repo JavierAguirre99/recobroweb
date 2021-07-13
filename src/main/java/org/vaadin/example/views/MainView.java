@@ -3,23 +3,27 @@ package org.vaadin.example.views;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.StreamResource;
 import org.apache.commons.io.FileUtils;
 import org.vaadin.alejandro.PdfBrowserViewer;
 import org.vaadin.example.MyDatabaseProvider;
+import org.vaadin.example.views.finiquitos.ConsultarFiniquitosView;
+import org.vaadin.example.views.finiquitos.FiniquitosView;
+import org.vaadin.example.views.usuario.UsuarioView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,15 +74,39 @@ public class MainView extends AppLayout {
 
     private void createDrawer() {
 
-     //   RouterLink listLink = new RouterLink("Usuario", UsuarioView.class);
-      //  listLink.setHighlightCondition(HighlightConditions.sameLocation());
+        Accordion menu = new Accordion();  //// Acordion principal
 
-        MenuBar menuBar = new MenuBar();
-        menuBar.addItem(new RouterLink("Dashboard", UsuarioView.class));
+        Accordion seguridadAccordion = new Accordion(); ////Acordion "Seguridad"
+        VerticalLayout seguridadLayout = new VerticalLayout(); //Contenedor del acordion "Seguridad"
+
+        seguridadLayout.add(new RouterLink("Usuario", UsuarioView.class)); ///LINKS Dentro del contenedor seguridad
+        seguridadAccordion.add("Usuario" , seguridadLayout);
+
+        menu.add("Seguridad", seguridadAccordion); /// se agrega el acordion al principal
+
+        Accordion gestionAcordion = new Accordion(); /// Acordion "Gestion"
+
+        VerticalLayout gestionLayout = new VerticalLayout(); ///// Contenedor de acordion "gestion"
+
+        gestionLayout.add(new RouterLink("Usuario", UsuarioView.class)); // Primer linck agregado a gestiones
+
+        gestionAcordion.add("Gestion" ,gestionLayout);
 
 
-        addToDrawer(new VerticalLayout(
-                menuBar));
+        Accordion finiquitosAcordion = new Accordion(); // Nuevo acordion finiquitos
+
+        gestionLayout.add(finiquitosAcordion); /// agregamos al contenedor el nuevo acordion
+
+        VerticalLayout finiquitosLayout = new VerticalLayout(); // creamos un contenedor del finiquitos acordion
+
+        finiquitosLayout.add(new RouterLink("ConsultarFiniquitos", ConsultarFiniquitosView.class)); // agregamos los linkc
+        finiquitosLayout.add(new RouterLink("IngresarFiniquitos", FiniquitosView.class));
+
+        finiquitosAcordion.add("Finiquitos" ,finiquitosLayout); /// agregamos
+
+        menu.add("Gestion", gestionAcordion);
+
+        addToDrawer(new VerticalLayout(menu));
     }
 
     public boolean validateUser(String userName, String passWord) {

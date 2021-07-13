@@ -1,11 +1,10 @@
-package org.vaadin.example.views;
+package org.vaadin.example.views.usuario;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -16,6 +15,8 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.vaadin.example.entidades.Usuario;
+
+import java.math.BigDecimal;
 
 public class UsuarioForm extends Dialog {
 
@@ -57,24 +58,24 @@ public class UsuarioForm extends Dialog {
                 new FormLayout.ResponsiveStep("40em", 3));
 
 
-        TextField usuarioTxt = new TextField("Usuario");
+        usuarioTxt = new TextField("Usuario");
         Icon icon = new Icon(VaadinIcon.USER);
         usuarioTxt.getElement().appendChild(icon.getElement());
 
-        PasswordField claveTxt = new PasswordField("Clave");
+        claveTxt = new PasswordField("Clave");
 
-        TextField nombreTxt = new TextField("Nombre");
+        nombreTxt = new TextField("Nombre");
 
-        ComboBox<Usuario.Perfil> perfilCbx = new ComboBox<>("Perfil");
+        perfilCbx = new ComboBox<>("Perfil");
         perfilCbx.setItems(Usuario.Perfil.values());
 
-        EmailField emailTxt = new EmailField("Email");
+        emailTxt = new EmailField("Email");
 
-        TextField telefonoTxt = new TextField("Telefono");
+        telefonoTxt = new TextField("Telefono");
 
-        TextField codigoEspecialTxt = new TextField("Codigo especial");
+        codigoEspecialTxt = new TextField("Codigo especial");
 
-        BigDecimalField metaDiariaTxt = new BigDecimalField("Meta diaria");
+        metaDiariaTxt = new BigDecimalField("Meta diaria");
 
         Button saveBtn = new Button("Guardar");
 
@@ -102,5 +103,10 @@ public class UsuarioForm extends Dialog {
     public void llenarDatos(){
         usuarioTxt.setValue(usuario.getUsuario());
         claveTxt.setValue(usuario.getClave());
+        nombreTxt.setValue(usuario.getNombre());
+        telefonoTxt.setValue(usuario.getTelefono());
+        emailTxt.setValue(usuario.getEmail());
+        codigoEspecialTxt.setValue(usuario.getCodigo_especial());
+        metaDiariaTxt.setValue(BigDecimal.valueOf(usuario.getMeta_diaria().doubleValue()));
     }
 }

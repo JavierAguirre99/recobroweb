@@ -1,33 +1,37 @@
-package org.vaadin.example.views;
+package org.vaadin.example.views.finiquitos;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
+import org.vaadin.example.entidades.Finiquitos;
 import org.vaadin.example.entidades.Usuario;
 import org.vaadin.example.service.UsuarioService;
+import org.vaadin.example.views.usuario.UsuarioForm;
 
-import java.math.BigDecimal;
-import java.util.UUID;
+@PageTitle("Finiquitos | Recobro Web")
+public class FiniquitosView extends Div {
 
-@PageTitle("Usuario | Recobro Web")
-public class UsuarioView extends Div {
+    Grid<Usuario> finiquitosGrid = new Grid<>(Usuario.class);
 
-    Grid<Usuario> usuarioGrid = new Grid<>(Usuario.class);
+    public Grid<Finiquitos> gridFiniquitos = new Grid<>(Finiquitos.class);
 
-    public UsuarioView(){
+    TextField filterText = new TextField();
+
+    public FiniquitosView(){
         setSizeFull();
         addClassName("empleado-view");
 
-        usuarioGrid.setSizeFull();
-        usuarioGrid.addClassName("empleado-grid");
-        usuarioGrid.setColumns("usuario", "clave");
-        usuarioGrid.getColumns().forEach(col -> col.setAutoWidth(true));
-        usuarioGrid.asSingleSelect().addValueChangeListener(event ->
+        finiquitosGrid.setSizeFull();
+        finiquitosGrid.addClassName("empleado-grid");
+        finiquitosGrid.setColumns("usuario", "clave");
+        finiquitosGrid.getColumns().forEach(col -> col.setAutoWidth(true));
+        finiquitosGrid.asSingleSelect().addValueChangeListener(event ->
                 enviarEmpleado(event.getValue()));
 
-        Div content2 = new Div(usuarioGrid);
+        Div content2 = new Div(finiquitosGrid);
         content2.addClassName("content");
         content2.setSizeFull();
 
@@ -49,7 +53,7 @@ public class UsuarioView extends Div {
 
     public void llenarUsuario(){
         UsuarioService usuarioService = new UsuarioService();
-        usuarioGrid.setItems(usuarioService.llenarListaUsuario());
+        finiquitosGrid.setItems(usuarioService.llenarListaUsuario());
     }
 
     public void enviarEmpleado(Usuario empleado) {
@@ -62,5 +66,6 @@ public class UsuarioView extends Div {
 
         }
     }
+
 
 }

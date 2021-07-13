@@ -1,4 +1,4 @@
-package org.vaadin.example.views;
+package org.vaadin.example.views.login;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
@@ -8,7 +8,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteConfiguration;
 import org.vaadin.example.views.MainView;
-import org.vaadin.example.views.UsuarioView;
+import org.vaadin.example.views.usuario.UsuarioView;
 
 @Route("")
 public class LoginPage extends Composite<LoginOverlay> {
