@@ -80,9 +80,17 @@ public class FiniquitosForm extends Dialog {
         Button saveBtn = new Button("Guardar");
 
         Button deleteBtn = new Button("Eliminar");
+        //deleteBtn.addClickListener(event -> close());
+
+        Button salirBtn = new Button("Salir");
+        salirBtn.addClickListener(event -> close());
+
         saveBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         deleteBtn.addThemeVariants(ButtonVariant.LUMO_ERROR);
+
+        salirBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
 
         columnLayout.add(correlativoTxt, identificacionTxt);
         columnLayout.setColspan(nombreTxt, 2);

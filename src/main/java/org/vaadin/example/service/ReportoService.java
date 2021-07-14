@@ -1,32 +1,37 @@
 package org.vaadin.example.service;
 
 import com.vaadin.flow.component.notification.Notification;
+
 import org.vaadin.example.MyDatabaseProvider;
+import org.vaadin.example.entidades.Reporto;
 import org.vaadin.example.entidades.Usuario;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class UsuarioService {
+
+public class ReportoService {
 
     Statement stQuery, stQuery1, stQuery2;
     ResultSet rsRecords, rsRecords1, rsRecords2;
 
-    List<Usuario> listUsuario = new ArrayList<>();
+    List<Reporto> listReporto = new ArrayList<>();
 
     MyDatabaseProvider databaseProvider;
 
-    public UsuarioService() {
+    public ReportoService() {
 
     }
 
-    public List llenarListaUsuario() {
+    public List llenarReporto() {
 
-        String queryString = " SELECT * from Usuario";
+        String queryString = " SELECT * from Reporto";
 
-        Usuario usuario;
+        Reporto reporto;
 
         try {
             if (connectToDB() == true) {
@@ -35,23 +40,15 @@ public class UsuarioService {
                 rsRecords = stQuery.executeQuery(queryString);
 
                 if (rsRecords.next()) { //  encontrado
-                    usuario = new Usuario();
+                    reporto = new Reporto();
 
-                    usuario.setUsuario(rsRecords.getString("Usuario"));
-                    usuario.setClave(rsRecords.getString("Clave"));
-                    usuario.setNombre(rsRecords.getString("Nombre"));
-                    if (rsRecords.getString("Perfil").equals("ADMINISTRADOR")){
-                        usuario.setPerfil(Usuario.Perfil.ADMINISTRADOR);
-                    }else if(rsRecords.getString("Perfil").equals("GESTOR")){
-                        usuario.setPerfil(Usuario.Perfil.ASESOR);
-                    }else{
-                        usuario.setPerfil(Usuario.Perfil.SUPERVISOR);
-                    }
-                    usuario.setTelefono(rsRecords.getString("Telefono"));
-                    usuario.setEmail(rsRecords.getString("Email"));
-                    usuario.setCodigo_especial(rsRecords.getString("CodigoEspecial"));
-                    usuario.setMeta_diaria(rsRecords.getDouble("MetaDiaria"));
-                    listUsuario.add(usuario);
+                    reporto.setIdUsuario(rsRecords.getInt("IdUsuario"));
+                    reporto.setFecha_hora(rsRecords.getDate("FechaYHora"));
+                    reporto.setMonto_acumulado(rsRecords.getDouble("MontoAcumulado"));
+                    reporto.setMeta_diaria(rsRecords.getDouble("MetaDiaria"));
+                    reporto.setMonto_probable(rsRecords.getDouble("MontoProbable"));
+                    reporto.setMonto_seguro(rsRecords.getDouble("MontoSeguro"));
+                    listReporto.add(reporto);
 
                 }
             }
@@ -61,7 +58,7 @@ public class UsuarioService {
             ex1.printStackTrace();
         }
 
-        return listUsuario;
+        return listReporto;
     }
 
     public boolean connectToDB() {

@@ -28,9 +28,10 @@ public class UsuarioForm extends Dialog {
     TextField telefonoTxt;
     TextField codigoEspecialTxt;
     BigDecimalField metaDiariaTxt;
-    Usuario usuario;
-    public UsuarioForm(Usuario usuario){
 
+    Usuario usuario;
+
+    public UsuarioForm(Usuario usuario){
         this.usuario = usuario;
 
         setWidth("70%");
@@ -80,9 +81,16 @@ public class UsuarioForm extends Dialog {
         Button saveBtn = new Button("Guardar");
 
         Button deleteBtn = new Button("Eliminar");
+        deleteBtn.addClickListener(e -> close());
+
+        Button saliBtn = new Button("Salir");
+
+
         saveBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         deleteBtn.addThemeVariants(ButtonVariant.LUMO_ERROR);
+
+        saliBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         columnLayout.add(usuarioTxt, claveTxt,  perfilCbx, emailTxt, nombreTxt);
         columnLayout.setColspan(nombreTxt, 2);
@@ -91,6 +99,7 @@ public class UsuarioForm extends Dialog {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(deleteBtn, saveBtn);
 
+        buttonLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, deleteBtn);
         buttonLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, saveBtn);
 
         add(titleLayout);
@@ -104,6 +113,7 @@ public class UsuarioForm extends Dialog {
         usuarioTxt.setValue(usuario.getUsuario());
         claveTxt.setValue(usuario.getClave());
         nombreTxt.setValue(usuario.getNombre());
+        perfilCbx.setValue(usuario.getPerfil());
         telefonoTxt.setValue(usuario.getTelefono());
         emailTxt.setValue(usuario.getEmail());
         codigoEspecialTxt.setValue(usuario.getCodigo_especial());

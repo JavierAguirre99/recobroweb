@@ -8,6 +8,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteConfiguration;
 import org.vaadin.example.views.MainView;
+import org.vaadin.example.views.bienvenido.BienvenidoView;
 import org.vaadin.example.views.usuario.UsuarioView;
 
 @Route("")
@@ -33,8 +34,7 @@ public class LoginPage extends Composite<LoginOverlay> {
 
 
         if ("admin".equals(usuario)) {
-            configuration.setRoute("", UsuarioView.class,
-                    MainView.class);
+            configuration.setRoute("", BienvenidoView.class, MainView.class);
         }
 
         UI.getCurrent().getPage().reload();

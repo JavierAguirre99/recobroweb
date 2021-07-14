@@ -7,9 +7,14 @@ import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -39,6 +44,7 @@ import java.sql.Statement;
 @PWA(name = "Project Base for Vaadin", shortName = "Recobro Web", enableInstallPrompt = false)
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
+
 public class MainView extends AppLayout {
 
     public MyDatabaseProvider databaseProvider;
@@ -48,65 +54,20 @@ public class MainView extends AppLayout {
     ResultSet rsRecords2 = null;
 
     public MainView() {
-        createHeader();
-        createDrawer();
-    }
+        final DrawerToggle drawerToggle = new DrawerToggle();
+        final RouterLink usuarioRlink = new RouterLink("Usuarios", UsuarioView.class);
+        final RouterLink finiquitosRlink = new RouterLink("Agregar y editar Finiquitos", FiniquitosView.class);
+        final RouterLink consultarRlin = new RouterLink("Consultar Finiquitos", ConsultarFiniquitosView.class);
+        final VerticalLayout menuLayout = new VerticalLayout(usuarioRlink, finiquitosRlink, consultarRlin);
 
-    private void createHeader() {
-        H1 logo = new H1("Recobro Web");
-        logo.addClassName("logo");
-
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo);
-
-        header.setDefaultVerticalComponentAlignment(
-                FlexComponent.Alignment.CENTER);
-        header.setWidth("100%");
-        header.addClassName("header");
-
-
-        addToNavbar(header);
+        addToDrawer(menuLayout);
+        addToNavbar(drawerToggle);
 
         if(validateUser("JAVIER", "Zepeda")){
 
         }
 
-    }
 
-    private void createDrawer() {
-
-        Accordion menu = new Accordion();  //// Acordion principal
-
-        Accordion seguridadAccordion = new Accordion(); ////Acordion "Seguridad"
-        VerticalLayout seguridadLayout = new VerticalLayout(); //Contenedor del acordion "Seguridad"
-
-        seguridadLayout.add(new RouterLink("Usuario", UsuarioView.class)); ///LINKS Dentro del contenedor seguridad
-        seguridadAccordion.add("Usuario" , seguridadLayout);
-
-        menu.add("Seguridad", seguridadAccordion); /// se agrega el acordion al principal
-
-        Accordion gestionAcordion = new Accordion(); /// Acordion "Gestion"
-
-        VerticalLayout gestionLayout = new VerticalLayout(); ///// Contenedor de acordion "gestion"
-
-        gestionLayout.add(new RouterLink("Usuario", UsuarioView.class)); // Primer linck agregado a gestiones
-
-        gestionAcordion.add("Gestion" ,gestionLayout);
-
-
-        Accordion finiquitosAcordion = new Accordion(); // Nuevo acordion finiquitos
-
-        gestionLayout.add(finiquitosAcordion); /// agregamos al contenedor el nuevo acordion
-
-        VerticalLayout finiquitosLayout = new VerticalLayout(); // creamos un contenedor del finiquitos acordion
-
-        finiquitosLayout.add(new RouterLink("ConsultarFiniquitos", ConsultarFiniquitosView.class)); // agregamos los linkc
-        finiquitosLayout.add(new RouterLink("IngresarFiniquitos", FiniquitosView.class));
-
-        finiquitosAcordion.add("Finiquitos" ,finiquitosLayout); /// agregamos
-
-        menu.add("Gestion", gestionAcordion);
-
-        addToDrawer(new VerticalLayout(menu));
     }
 
     public boolean validateUser(String userName, String passWord) {

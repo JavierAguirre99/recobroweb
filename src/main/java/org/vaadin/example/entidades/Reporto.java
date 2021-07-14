@@ -7,6 +7,8 @@ public class Reporto  {
 
     public static DecimalFormat numberFormat = new DecimalFormat("#,###,##0.00");
 
+    private int idUsuario;
+
     private Date fecha_hora;
 
     private Double monto_acumulado = 0.00;
@@ -18,6 +20,14 @@ public class Reporto  {
     private Double meta_diaria = 0.00;
 
     private String comentario = "";
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public Date getFecha_hora() {
         return fecha_hora;
