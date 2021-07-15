@@ -25,7 +25,7 @@ public class FiniquitosService {
     }
     public List llenarListaFiniquitos() {
 
-        String queryString = " SELECT * from Finiquitos";
+        String queryString = " SELECT * from finiquito";
 
         Finiquitos finiquito;
 

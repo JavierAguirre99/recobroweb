@@ -28,6 +28,7 @@ import org.vaadin.alejandro.PdfBrowserViewer;
 import org.vaadin.example.MyDatabaseProvider;
 import org.vaadin.example.views.finiquitos.ConsultarFiniquitosView;
 import org.vaadin.example.views.finiquitos.FiniquitosView;
+import org.vaadin.example.views.reporto.ReportoView;
 import org.vaadin.example.views.usuario.UsuarioView;
 
 import java.io.File;
@@ -56,9 +57,11 @@ public class MainView extends AppLayout {
     public MainView() {
         final DrawerToggle drawerToggle = new DrawerToggle();
         final RouterLink usuarioRlink = new RouterLink("Usuarios", UsuarioView.class);
-        final RouterLink finiquitosRlink = new RouterLink("Agregar y editar Finiquitos", FiniquitosView.class);
-        final RouterLink consultarRlin = new RouterLink("Consultar Finiquitos", ConsultarFiniquitosView.class);
-        final VerticalLayout menuLayout = new VerticalLayout(usuarioRlink, finiquitosRlink, consultarRlin);
+        RouterLink finiquitosRlink = new RouterLink("Agregar", FiniquitosView.class);
+        final RouterLink consultarRlin = new RouterLink("Consultar", ConsultarFiniquitosView.class);
+        final RouterLink reportoRlin = new RouterLink("Reporto", ReportoView.class);
+        final VerticalLayout menuLayout = new VerticalLayout(usuarioRlink, finiquitosRlink, consultarRlin, reportoRlin);
+        //final VerticalLayout menuLayout = new VerticalLayout(usuarioRlink, finiquitosRlink, consultarRlin);
 
         addToDrawer(menuLayout);
         addToNavbar(drawerToggle);

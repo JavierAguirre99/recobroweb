@@ -1,12 +1,15 @@
 package org.vaadin.example.entidades;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 public class Usuario {
 
     public enum Perfil {
         ADMINISTRADOR, SUPERVISOR, ASESOR
     }
+
+    private int idUsuario;
 
     private String usuario;
 
@@ -20,9 +23,13 @@ public class Usuario {
 
     private String telefono;
 
-    private Double meta_diaria;
+    private Date ultimoLogin;
 
     private String codigo_especial;
+
+    private Double meta_diaria;
+
+    private Double estatus;
 
 
     public Usuario(){
@@ -96,5 +103,30 @@ public class Usuario {
 
     public void setCodigo_especial(String codigo_especial) {
         this.codigo_especial = codigo_especial;
+    }
+
+    public Date getUltimoLogin() {
+        return ultimoLogin;
+    }
+
+    public void setUltimoLogin(Date ultimoLogin) {
+        this.ultimoLogin = ultimoLogin;
+    }
+
+    public Double getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Double estatus) {
+        this.estatus = estatus;
+    }
+
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

@@ -4,6 +4,7 @@ import com.vaadin.flow.component.notification.Notification;
 import org.vaadin.example.MyDatabaseProvider;
 import org.vaadin.example.entidades.Usuario;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -11,12 +12,14 @@ import java.util.List;
 
 public class UsuarioService {
 
-    Statement stQuery, stQuery1, stQuery2;
-    ResultSet rsRecords, rsRecords1, rsRecords2;
+    Statement stQuery;
+    ResultSet rsRecords;
 
     List<Usuario> listUsuario = new ArrayList<>();
 
     MyDatabaseProvider databaseProvider;
+
+    String queryString = "";
 
     public UsuarioService() {
 
@@ -62,6 +65,53 @@ public class UsuarioService {
         }
 
         return listUsuario;
+    }
+
+    public void guardarUsuario(int i, Usuario usuario) {
+        try {
+
+            if (i == 0) {
+
+                queryString = "Insert Into usuario (Usuario, Clave, Nombre, Email, Telefono, Perfil, CodigoEspecial, Estatus, MetaDiaria)";
+                queryString += " Values (";
+                queryString += "'" + usuario.getUsuario()+ "'";
+                queryString += ",Sha1('" + usuario.getClave() + "')";
+                queryString += ",'" + usuario.getNombre() + "'";
+                queryString += ",'" + usuario.getEmail() + "'";
+                queryString += ",'" + usuario.getTelefono() + "'";
+                queryString += ",'" + usuario.getPerfil() + "'";
+                queryString += ",'" + usuario.getCodigo_especial()+ "'";
+                queryString += ",'" + usuario.getEstatus() + "'";
+                queryString += "," + usuario.getMeta_diaria();
+                queryString += ")";
+
+            } else {
+
+                queryString = "Update usuario Set ";
+                queryString += " Usuario = '" + usuario.getUsuario() + "'";
+                queryString += " Nombre = '" + usuario.getNombre() + "'";
+
+                if (!usuario.getClave().trim().isEmpty()) {
+                    queryString += ",Clave = Sha1('" + usuario.getClave() + "')";
+
+                }
+                queryString += ",Email = '" + usuario.getEmail()+ "'";
+                queryString += ",Telefono = '" + usuario.getTelefono() + "'";
+                queryString += ",Perfil = '" + String.valueOf(usuario.getPerfil()) + "'";
+                queryString += ",CodigoEspecial = '" + usuario.getCodigo_especial() + "'";
+                queryString += ",Estatus ='" + String.valueOf(usuario.getEstatus() + "'");
+                queryString += ",MetaDiaria = " + usuario.getMeta_diaria();
+                queryString += " Where IdUsuario = " + String.valueOf(usuario.getIdUsuario());
+            }
+
+                stQuery = databaseProvider.getCurrentConnection().createStatement();
+                stQuery.executeUpdate(queryString);
+
+
+        } catch(Exception ex){
+            System.out.println("Error al intentar guardar Usuario");
+        }
+
     }
 
     public boolean connectToDB() {

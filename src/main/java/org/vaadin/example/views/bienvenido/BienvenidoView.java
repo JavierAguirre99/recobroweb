@@ -10,7 +10,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.vaadin.example.views.MainView;
 
-@Route( layout = MainView.class)
+@Route(layout = MainView.class)
 @PageTitle("Bienvenido | Recobro Web")
 public class BienvenidoView extends Div {
 

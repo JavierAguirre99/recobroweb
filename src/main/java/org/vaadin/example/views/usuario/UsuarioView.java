@@ -17,6 +17,7 @@ import org.vaadin.example.views.usuario.UsuarioForm;
 public class UsuarioView extends Div {
 
     Grid<Usuario> usuarioGrid = new Grid<>(Usuario.class);
+    UsuarioService usuarioService = new UsuarioService();
 
     public UsuarioView(){
         setSizeFull();
@@ -47,7 +48,7 @@ public class UsuarioView extends Div {
     private HorizontalLayout getToolbar() {
         Usuario usuario = new Usuario();
         Button addEmpleadoButton = new Button("Nuevo usuario");
-        addEmpleadoButton.addClickListener(click -> new UsuarioForm(usuario).open());
+        addEmpleadoButton.addClickListener(click -> new UsuarioForm(usuario, usuarioService).open());
 
         HorizontalLayout toolbar = new HorizontalLayout(addEmpleadoButton);
         toolbar.addClassName("toolbar");
@@ -55,7 +56,6 @@ public class UsuarioView extends Div {
     }
 
     public void llenarUsuario(){
-        UsuarioService usuarioService = new UsuarioService();
         usuarioGrid.setItems(usuarioService.llenarListaUsuario());
     }
 
@@ -65,7 +65,7 @@ public class UsuarioView extends Div {
 
         } else {
 
-            new UsuarioForm(empleado).open();
+            new UsuarioForm(empleado, usuarioService).open();
 
         }
     }

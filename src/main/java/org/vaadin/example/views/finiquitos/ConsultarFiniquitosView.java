@@ -5,8 +5,13 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import org.vaadin.example.entidades.Finiquitos;
+import org.vaadin.example.views.MainView;
 
+@Route( layout = MainView.class)
+@PageTitle("Consultar Finiquitos| Recobro Web")
 public class ConsultarFiniquitosView extends Div {
 
     public Grid<Finiquitos> gridFiniquitos = new Grid<>(Finiquitos.class);

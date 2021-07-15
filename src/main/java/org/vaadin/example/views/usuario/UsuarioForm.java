@@ -1,5 +1,7 @@
 package org.vaadin.example.views.usuario;
 
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -15,6 +17,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.vaadin.example.entidades.Usuario;
+import org.vaadin.example.service.UsuarioService;
 
 import java.math.BigDecimal;
 
@@ -30,16 +33,21 @@ public class UsuarioForm extends Dialog {
     BigDecimalField metaDiariaTxt;
 
     Usuario usuario;
+    int vandera = 0;
 
-    public UsuarioForm(Usuario usuario){
+    UsuarioService usuarioService;
+
+    public UsuarioForm(Usuario usuario, UsuarioService usuarioService){
         this.usuario = usuario;
+        this.usuarioService = usuarioService;
 
         setWidth("70%");
         setHeight("60%");
         crearFormLayout();
 
-        if(usuario.getUsuario()!= null || !usuario.getUsuario().isEmpty()){
+        if(usuario != null){
             llenarDatos();
+            vandera =1;
         }
 
     }
@@ -78,29 +86,36 @@ public class UsuarioForm extends Dialog {
 
         metaDiariaTxt = new BigDecimalField("Meta diaria");
 
-        Button saveBtn = new Button("Guardar");
+        Button guardarBtn = new Button("Guardar");
+        guardarBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        guardarBtn.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> buttonClickEvent) {
+                if (vandera == 0){
+                        usuarioService.guardarUsuario(0, usuario);
 
-        Button deleteBtn = new Button("Eliminar");
-        deleteBtn.addClickListener(e -> close());
+                }
+            }
+        });
 
-        Button saliBtn = new Button("Salir");
+        Button eliminarBtn = new Button("Eliminar");
+        //eliminarBtn.addClickListener(e -> close());
+        eliminarBtn.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
-
-        saveBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        deleteBtn.addThemeVariants(ButtonVariant.LUMO_ERROR);
-
-        saliBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button salirBtn = new Button("Salir");
+        salirBtn.addClickListener(event -> close());
+        salirBtn.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
 
         columnLayout.add(usuarioTxt, claveTxt,  perfilCbx, emailTxt, nombreTxt);
         columnLayout.setColspan(nombreTxt, 2);
         columnLayout.add(telefonoTxt, codigoEspecialTxt, metaDiariaTxt);
 
         HorizontalLayout buttonLayout = new HorizontalLayout();
-        buttonLayout.add(deleteBtn, saveBtn);
+        buttonLayout.add(salirBtn, eliminarBtn, guardarBtn);
 
-        buttonLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, deleteBtn);
-        buttonLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, saveBtn);
+        buttonLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, salirBtn);
+        buttonLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, eliminarBtn);
+        buttonLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, guardarBtn);
 
         add(titleLayout);
 

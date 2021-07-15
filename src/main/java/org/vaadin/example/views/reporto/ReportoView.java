@@ -14,10 +14,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import org.vaadin.example.entidades.Reporto;
 import org.vaadin.example.entidades.Usuario;
 import org.vaadin.example.service.ReportoService;
 import org.vaadin.example.service.UsuarioService;
+import org.vaadin.example.views.MainView;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+@Route( layout = MainView.class)
 @PageTitle("Reporto de recuperación | Recobro WEB")
 public class ReportoView extends VerticalLayout {
 
