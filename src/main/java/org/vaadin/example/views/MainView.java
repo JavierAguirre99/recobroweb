@@ -3,6 +3,7 @@ package org.vaadin.example.views;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -54,7 +55,11 @@ public class MainView extends AppLayout {
     ResultSet rsRecords = null;
     ResultSet rsRecords2 = null;
 
+    UI mainUI;
+
     public MainView() {
+
+        this.mainUI = UI.getCurrent();
         final DrawerToggle drawerToggle = new DrawerToggle();
         final RouterLink usuarioRlink = new RouterLink("Usuarios", UsuarioView.class);
         RouterLink finiquitosRlink = new RouterLink("Agregar", FiniquitosView.class);

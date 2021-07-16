@@ -2,6 +2,7 @@ package org.vaadin.example.views.usuario;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -10,6 +11,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.BigDecimalField;
@@ -23,6 +25,7 @@ import java.math.BigDecimal;
 
 public class UsuarioForm extends Dialog {
 
+    UI mainUI;
     TextField usuarioTxt;
     PasswordField claveTxt;
     TextField nombreTxt;
@@ -33,11 +36,13 @@ public class UsuarioForm extends Dialog {
     BigDecimalField metaDiariaTxt;
 
     Usuario usuario;
-    int vandera = 0;
+    int vandera = 0; // Nuevo
 
     UsuarioService usuarioService;
 
     public UsuarioForm(Usuario usuario, UsuarioService usuarioService){
+
+        this.mainUI = UI.getCurrent();
         this.usuario = usuario;
         this.usuarioService = usuarioService;
 
@@ -45,9 +50,9 @@ public class UsuarioForm extends Dialog {
         setHeight("60%");
         crearFormLayout();
 
-        if(usuario != null){
+        if(usuario.getUsuario() != null){
             llenarDatos();
-            vandera =1;
+            vandera =1; // EDITAR
         }
 
     }
@@ -91,10 +96,27 @@ public class UsuarioForm extends Dialog {
         guardarBtn.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> buttonClickEvent) {
-                if (vandera == 0){
-                        usuarioService.guardarUsuario(0, usuario);
 
+                usuario.setUsuario(usuarioTxt.getValue());
+                usuario.setClave(claveTxt.getValue());
+                usuario.setPerfil(perfilCbx.getValue());
+                usuario.setEmail(emailTxt.getValue());
+                usuario.setNombre(nombreTxt.getValue());
+                usuario.setTelefono(telefonoTxt.getValue());
+                usuario.setCodigoEspecial(codigoEspecialTxt.getValue());
+                usuario.setMetaDiaria(Double.valueOf(String.valueOf(metaDiariaTxt.getValue())));
+
+                usuarioService.guardarUsuario(vandera, usuario);
+
+                if (vandera == 1){
+                    Notification.show("Registro modificado con exito!");
+                }else{
+                    Notification.show("Registro agregado con exito!");
                 }
+
+
+                UI.getCurrent().getPage().reload();
+
             }
         });
 
@@ -131,7 +153,7 @@ public class UsuarioForm extends Dialog {
         perfilCbx.setValue(usuario.getPerfil());
         telefonoTxt.setValue(usuario.getTelefono());
         emailTxt.setValue(usuario.getEmail());
-        codigoEspecialTxt.setValue(usuario.getCodigo_especial());
-        metaDiariaTxt.setValue(BigDecimal.valueOf(usuario.getMeta_diaria().doubleValue()));
+        codigoEspecialTxt.setValue(usuario.getCodigoEspecial());
+        metaDiariaTxt.setValue(BigDecimal.valueOf(usuario.getMetaDiaria().doubleValue()));
     }
 }

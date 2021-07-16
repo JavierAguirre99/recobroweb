@@ -25,11 +25,11 @@ public class Usuario {
 
     private Date ultimoLogin;
 
-    private String codigo_especial;
+    private String codigoEspecial;
 
-    private Double meta_diaria;
+    private Double metaDiaria;
 
-    private Double estatus;
+    private String estatus;
 
 
     public Usuario(){
@@ -39,6 +39,14 @@ public class Usuario {
     public Usuario(String usuario, String clave){
         this.usuario = usuario;
         this.clave = clave;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getUsuario() {
@@ -89,22 +97,6 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public Double getMeta_diaria() {
-        return meta_diaria;
-    }
-
-    public void setMeta_diaria(Double meta_diaria) {
-        this.meta_diaria = meta_diaria;
-    }
-
-    public String getCodigo_especial() {
-        return codigo_especial;
-    }
-
-    public void setCodigo_especial(String codigo_especial) {
-        this.codigo_especial = codigo_especial;
-    }
-
     public Date getUltimoLogin() {
         return ultimoLogin;
     }
@@ -113,20 +105,27 @@ public class Usuario {
         this.ultimoLogin = ultimoLogin;
     }
 
-    public Double getEstatus() {
+    public String getCodigoEspecial() {
+        return codigoEspecial;
+    }
+
+    public void setCodigoEspecial(String codigoEspecial) {
+        this.codigoEspecial = codigoEspecial;
+    }
+
+    public Double getMetaDiaria() {
+        return metaDiaria;
+    }
+
+    public void setMetaDiaria(Double metaDiaria) {
+        this.metaDiaria = metaDiaria;
+    }
+
+    public String getEstatus() {
         return estatus;
     }
 
-    public void setEstatus(Double estatus) {
+    public void setEstatus(String estatus) {
         this.estatus = estatus;
-    }
-
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
     }
 }

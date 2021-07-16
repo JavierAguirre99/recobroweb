@@ -1,5 +1,6 @@
 package org.vaadin.example.service;
 
+import com.mysql.cj.QueryResult;
 import com.vaadin.flow.component.notification.Notification;
 import org.vaadin.example.MyDatabaseProvider;
 import org.vaadin.example.entidades.Usuario;
@@ -27,9 +28,9 @@ public class UsuarioService {
 
     public List llenarListaUsuario() {
 
-        String queryString = " SELECT * from Usuario";
-
         Usuario usuario;
+
+        queryString = " SELECT * from Usuario";
 
         try {
             if (connectToDB() == true) {
@@ -38,23 +39,30 @@ public class UsuarioService {
                 rsRecords = stQuery.executeQuery(queryString);
 
                 if (rsRecords.next()) { //  encontrado
-                    usuario = new Usuario();
 
-                    usuario.setUsuario(rsRecords.getString("Usuario"));
-                    usuario.setClave(rsRecords.getString("Clave"));
-                    usuario.setNombre(rsRecords.getString("Nombre"));
-                    if (rsRecords.getString("Perfil").equals("ADMINISTRADOR")){
-                        usuario.setPerfil(Usuario.Perfil.ADMINISTRADOR);
-                    }else if(rsRecords.getString("Perfil").equals("GESTOR")){
-                        usuario.setPerfil(Usuario.Perfil.ASESOR);
-                    }else{
-                        usuario.setPerfil(Usuario.Perfil.SUPERVISOR);
-                    }
-                    usuario.setTelefono(rsRecords.getString("Telefono"));
-                    usuario.setEmail(rsRecords.getString("Email"));
-                    usuario.setCodigo_especial(rsRecords.getString("CodigoEspecial"));
-                    usuario.setMeta_diaria(rsRecords.getDouble("MetaDiaria"));
-                    listUsuario.add(usuario);
+                    do{
+
+                        usuario = new Usuario();
+
+                        usuario.setIdUsuario(rsRecords.getInt("IdUsuario"));
+                        usuario.setUsuario(rsRecords.getString("Usuario"));
+                        usuario.setClave(rsRecords.getString("Clave"));
+                        usuario.setNombre(rsRecords.getString("Nombre"));
+                        if (rsRecords.getString("Perfil").equals("ADMINISTRADOR")){
+                            usuario.setPerfil(Usuario.Perfil.ADMINISTRADOR);
+                        }else if(rsRecords.getString("Perfil").equals("GESTOR")){
+                            usuario.setPerfil(Usuario.Perfil.ASESOR);
+                        }else{
+                            usuario.setPerfil(Usuario.Perfil.SUPERVISOR);
+                        }
+                        usuario.setTelefono(rsRecords.getString("Telefono"));
+                        usuario.setEmail(rsRecords.getString("Email"));
+                        usuario.setCodigoEspecial(rsRecords.getString("CodigoEspecial"));
+                        usuario.setMetaDiaria(rsRecords.getDouble("MetaDiaria"));
+
+                        listUsuario.add(usuario);
+
+                    }while (rsRecords.next());
 
                 }
             }
@@ -68,6 +76,9 @@ public class UsuarioService {
     }
 
     public void guardarUsuario(int i, Usuario usuario) {
+
+        System.out.println("VANDERA " + i);
+        System.out.println("Id Usuario" + usuario.getIdUsuario());
         try {
 
             if (i == 0) {
@@ -80,16 +91,18 @@ public class UsuarioService {
                 queryString += ",'" + usuario.getEmail() + "'";
                 queryString += ",'" + usuario.getTelefono() + "'";
                 queryString += ",'" + usuario.getPerfil() + "'";
-                queryString += ",'" + usuario.getCodigo_especial()+ "'";
+                queryString += ",'" + usuario.getCodigoEspecial()+ "'";
                 queryString += ",'" + usuario.getEstatus() + "'";
-                queryString += "," + usuario.getMeta_diaria();
+                queryString += "," + usuario.getMetaDiaria();
                 queryString += ")";
+
+                System.out.println("QUERY " + queryString);
 
             } else {
 
                 queryString = "Update usuario Set ";
                 queryString += " Usuario = '" + usuario.getUsuario() + "'";
-                queryString += " Nombre = '" + usuario.getNombre() + "'";
+                queryString += ", Nombre = '" + usuario.getNombre() + "'";
 
                 if (!usuario.getClave().trim().isEmpty()) {
                     queryString += ",Clave = Sha1('" + usuario.getClave() + "')";
@@ -98,10 +111,12 @@ public class UsuarioService {
                 queryString += ",Email = '" + usuario.getEmail()+ "'";
                 queryString += ",Telefono = '" + usuario.getTelefono() + "'";
                 queryString += ",Perfil = '" + String.valueOf(usuario.getPerfil()) + "'";
-                queryString += ",CodigoEspecial = '" + usuario.getCodigo_especial() + "'";
+                queryString += ",CodigoEspecial = '" + usuario.getCodigoEspecial() + "'";
                 queryString += ",Estatus ='" + String.valueOf(usuario.getEstatus() + "'");
-                queryString += ",MetaDiaria = " + usuario.getMeta_diaria();
+                queryString += ",MetaDiaria = " + usuario.getMetaDiaria();
                 queryString += " Where IdUsuario = " + String.valueOf(usuario.getIdUsuario());
+
+                System.out.println("QUERY " + queryString);
             }
 
                 stQuery = databaseProvider.getCurrentConnection().createStatement();
